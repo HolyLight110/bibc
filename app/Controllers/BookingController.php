@@ -29,7 +29,7 @@ class BookingController extends Controller
             ->orderBy('iCabBookingId', 'DESC')
             ->get();
 
-        return view('pages.bookings.list', compact('bookings'));
+        return view('pages.bookings.index', compact('bookings'));
     }
 
     public function form()

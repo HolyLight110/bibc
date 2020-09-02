@@ -38,8 +38,8 @@ class TripController extends Controller
             ->orderBy('iTripId', 'DESC')
             ->get();
         if ($driver) {
-            return view('pages.frontend.panel.driver.trips.list', compact('trips'));
+            return view('pages.frontend.panel.driver.trips.index', compact('trips'));
         }
-        return view('pages.trips.list', compact('trips'));
+        return view('pages.trips.index', compact('trips'));
     }
 }

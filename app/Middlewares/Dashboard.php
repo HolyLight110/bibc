@@ -24,7 +24,7 @@ class Dashboard implements IMiddleware
             ['name' => 'packageTypes', 'title' => 'انواع بسته', 'href' => url('packageTypes'), 'icon' => 'fa-shopping-bag'],
             ['name' => 'passengers', 'title' => 'مسافران', 'href' => url('passengers'), 'icon' => 'fa-car'],
             ['name' => 'bookings', 'title' => 'لیست رزروها', 'href' => url('bookings'), 'icon' => 'fa-book'],
-            ['name' => 'trips', 'title' => 'سفرها', 'href' => url('trips'), 'icon' => 'fa-map-marked'],
+            ['name' => 'trips', 'title' => 'سفرها', 'href' => url('trips'), 'icon' => 'fa-map-marker'],
             ['name' => 'heatmap', 'title' => 'تراکم درخواست ها', 'href' => url('heatmap'), 'icon' => 'fa-map'],
         ];
         $sidebar['menu']['items'] = $items;

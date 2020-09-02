@@ -1,0 +1,21 @@
+
+//load font
+@import "modules/fonts";
+
+
+//load variables 
+@import 'variables';
+
+// @import"../assets/vendor/font-awesome-4.6.3/scss/font-awesome.scss";
+
+//load bootstrap 
+@import '~bootstrap/scss/bootstrap';
+
+
+//sections modules
+@import 'modules/sidebar';
+@import 'modules/navbar';
+
+
+//load global customizations
+@import 'main';

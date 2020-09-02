@@ -20,22 +20,66 @@ class DriverController extends BaseController
         if (!is_null($id)) $driversQuery->where('iCompanyId', $id);
         $drivers = $driversQuery->get();
 
-        return view('pages.drivers.list', compact('drivers'));
+        return view('pages.drivers.index', compact('drivers'));
     }
 
-    public function form(int $id = null)
-    {
+    public function create() {
+
         $countries = Country::where('eStatus', 'active')->orderBy('vCountry', 'ASC')->get();
         $companies = Company::where('eStatus', 'active')->orderBy('vCompany', 'ASC')->get();
         $languages = Language::where('eStatus', 'active')->orderBy('vTitle', 'ASC')->get();
         $currencies = Currency::where('eStatus', 'active')->orderBy('vName', 'ASC')->get();
 
-        $driver = null;
-        if (!is_null($id)) {
-            $driver = Driver::find($id);
-        }
+        return view('pages.drivers.create',
+            [
+                'countries' => $countries,
+                'companies' => $companies,
+                'languages' => $languages,
+                'currencies' => $currencies,
+            ]);
 
-        return view('pages.drivers.form',
+    }
+
+    // public function form(int $id = null)
+    // {
+    //     $countries = Country::where('eStatus', 'active')->orderBy('vCountry', 'ASC')->get();
+    //     $companies = Company::where('eStatus', 'active')->orderBy('vCompany', 'ASC')->get();
+    //     $languages = Language::where('eStatus', 'active')->orderBy('vTitle', 'ASC')->get();
+    //     $currencies = Currency::where('eStatus', 'active')->orderBy('vName', 'ASC')->get();
+
+    //     $driver = null;
+    //     if (!is_null($id)) {
+    //         $driver = Driver::find($id);
+    //     }
+
+    //     return view('pages.drivers.form',
+    //         [
+    //             'driver' => $driver,
+    //             'countries' => $countries,
+    //             'companies' => $companies,
+    //             'languages' => $languages,
+    //             'currencies' => $currencies,
+    //         ]);
+    // }
+
+    //store new driver
+    public function store()
+    {
+        //TODO validation for create driver
+        Driver::create(input()->all());
+        return redirect(url('drivers'));
+    }
+
+    //route to edit
+    public function edit(int $id) {
+        $countries = Country::where('eStatus', 'active')->orderBy('vCountry', 'ASC')->get();
+        $companies = Company::where('eStatus', 'active')->orderBy('vCompany', 'ASC')->get();
+        $languages = Language::where('eStatus', 'active')->orderBy('vTitle', 'ASC')->get();
+        $currencies = Currency::where('eStatus', 'active')->orderBy('vName', 'ASC')->get();
+
+        $driver = Driver::find($id);
+
+        return view('pages.drivers.edit',
             [
                 'driver' => $driver,
                 'countries' => $countries,
@@ -45,14 +89,7 @@ class DriverController extends BaseController
             ]);
     }
 
-    public function create()
-    {
-        //TODO validation for create driver
-        Driver::create(input()->all());
-        return redirect(url('drivers'));
-    }
-
-
+    //update driver
     public function update(int $id)
     {
         //TODO validation for edit driver

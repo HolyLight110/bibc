@@ -16,20 +16,17 @@ class AreaController extends BaseController
     public function index()
     {
         $areas = Area::orderBy('sAreaNamePersian', 'ASC')->get();
-        return view('pages.areas.list', compact('areas'));
+        return view('pages.areas.index', compact('areas'));
     }
 
-    public function form(int $id = null)
-    {
-        $area = null;
-        if (!is_null($id)) {
-            $area = Area::find($id);
-        }
-        return view('pages.areas.form', compact('area'));
+    //route to create area
+    public function create() {
+
+        return view('pages.areas.create');
     }
 
-    public function create()
-    {
+    //store new area
+    public function store() {
         $sAreaName = input('sAreaName');
         $sAreaNamePersian = input('sAreaNamePersian');
         $sSpecialArea = input('sSpecialArea');
@@ -69,6 +66,24 @@ class AreaController extends BaseController
 
         return redirect(url('areas'));
     }
+
+    public function edit(int $id) {
+        $area = null;
+        if (!is_null($id)) {
+            $area = Area::find($id);
+        }
+        return view('pages.areas.edit', compact('area'));
+    }
+
+    // public function form(int $id = null)
+    // {
+    //     $area = null;
+    //     if (!is_null($id)) {
+    //         $area = Area::find($id);
+    //     }
+    //     return view('pages.areas.form', compact('area'));
+    // }
+
 
     public function update(int $id)
     {

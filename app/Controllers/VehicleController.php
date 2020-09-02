@@ -41,13 +41,13 @@ class VehicleController extends Controller
             ->orderBy('iDriverVehicleId', 'ASC')
             ->get();
         if ($driver) {
-            return view('pages.frontend.panel.driver.vehicles.list', compact('vehicles'));
+            return view('pages.frontend.panel.driver.vehicles.index', compact('vehicles'));
         }
-        return view('pages.vehicles.list', compact('vehicles'));
+        return view('pages.vehicles.index', compact('vehicles'));
     }
 
-    public function form(int $id = null)
-    {
+    //route to add new vehicle
+    public function create(int $id = null) {
         $driver = $this->driver;
         $makes = Make::orderBy('iMakeId', 'ASC')->get();
         $vehicleTypes = VehicleType::orderBy('vVehicleType', 'ASC')->get();
@@ -61,14 +61,14 @@ class VehicleController extends Controller
             $models = Model::where('iMakeId', $vehicle->iMakeId)->where('eStatus', 'Active')->get();
         }
         if ($driver) {
-            return view('pages.frontend.panel.driver.vehicles.form', compact('vehicle', 'makes', 'vehicleTypes', 'models'));
+            return view('pages.frontend.panel.driver.vehicles.create', compact('vehicle', 'makes', 'vehicleTypes', 'models'));
         }
         $companies = Company::orderBy('iCompanyId', 'ASC')->get();
-        return view('pages.vehicles.form', compact('vehicle', 'makes', 'companies', 'vehicleTypes', 'models'));
+        return view('pages.vehicles.create', compact('vehicle', 'makes', 'companies', 'vehicleTypes', 'models'));
     }
 
-    public function create()
-    {
+    //route to store new vehicle
+    public function store() {
         //TODO validation for create company
         $driver = $this->driver;
         $input = input()->all();
@@ -82,6 +82,50 @@ class VehicleController extends Controller
         return redirect($redirect);
     }
 
+    //route to edit a vehicle
+    public function edit(int $id = null) {
+        $driver = $this->driver;
+        $makes = Make::orderBy('iMakeId', 'ASC')->get();
+        $vehicleTypes = VehicleType::orderBy('vVehicleType', 'ASC')->get();
+        $vehicle = null;
+        $models = null;
+        if (!is_null($id)) {
+            $vehicle = Vehicle::find($id);
+            if ($driver && $vehicle->iDriverId !== $driver['iDriverId']) {
+                throw new NotFoundHttpException('No access');
+            }
+            $models = Model::where('iMakeId', $vehicle->iMakeId)->where('eStatus', 'Active')->get();
+        }
+        if ($driver) {
+            return view('pages.frontend.panel.driver.vehicles.edit', compact('vehicle', 'makes', 'vehicleTypes', 'models'));
+        }
+        $companies = Company::orderBy('iCompanyId', 'ASC')->get();
+        return view('pages.vehicles.edit', compact('vehicle', 'makes', 'companies', 'vehicleTypes', 'models'));
+    }
+
+    // public function form(int $id = null)
+    // {
+    //     $driver = $this->driver;
+    //     $makes = Make::orderBy('iMakeId', 'ASC')->get();
+    //     $vehicleTypes = VehicleType::orderBy('vVehicleType', 'ASC')->get();
+    //     $vehicle = null;
+    //     $models = null;
+    //     if (!is_null($id)) {
+    //         $vehicle = Vehicle::find($id);
+    //         if ($driver && $vehicle->iDriverId !== $driver['iDriverId']) {
+    //             throw new NotFoundHttpException('No access');
+    //         }
+    //         $models = Model::where('iMakeId', $vehicle->iMakeId)->where('eStatus', 'Active')->get();
+    //     }
+    //     if ($driver) {
+    //         return view('pages.frontend.panel.driver.vehicles.form', compact('vehicle', 'makes', 'vehicleTypes', 'models'));
+    //     }
+    //     $companies = Company::orderBy('iCompanyId', 'ASC')->get();
+    //     return view('pages.vehicles.form', compact('vehicle', 'makes', 'companies', 'vehicleTypes', 'models'));
+    // }
+
+
+    //route update vehicle
     public function update(int $id)
     {
         //TODO validation for edit vehicle

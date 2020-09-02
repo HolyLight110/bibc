@@ -16,7 +16,7 @@ $capsule->addConnection([
     'host' => 'localhost',
     'database' => 'bibc',
     'username' => 'root',
-    'password' => 'Nil00f@r1869',
+    'password' => '',//'Nil00f@r1869',
     'charset' => 'utf8',
     'collation' => 'utf8_unicode_ci',
     'prefix' => '',

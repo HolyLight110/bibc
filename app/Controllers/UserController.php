@@ -14,25 +14,35 @@ class UserController extends BaseController
         $users = User::with('adminGroups')
             ->orderBy('iAdminId', 'ASC')
             ->get();
-        return view('pages.users.list', compact('users'));
+        return view('pages.users.index', compact('users'));
     }
 
-    public function form(int $id = null)
-    {
+    public function create() {
+        //get areas
         $areas = Area::where('sActive', 'Yes')->orderBy('sAreaNamePersian', 'ASC')->get();
+
+        //get groups 
         $groups = AdminGroup::orderBy('iGroupId', 'ASC')->get();
-        $user = null;
-        if (!is_null($id)) {
-            $user = User::where('iAdminId', $id)->get()->first();
-        }
-        return view('pages.users.form', compact('areas', 'groups', 'user'));
+
+        //return view
+        return view('pages.users.create', compact('areas', 'groups'));
     }
 
-    public function create()
-    {
+    public function store() {
         //TODO validation for create user
         User::create(input()->all());
+        $_SESSION['success'] = 'SUCCESSFUL CREATED';
         return redirect(url('users'));
+    }
+
+    public function edit(int $id = null) {
+
+        $areas = Area::where('sActive', 'Yes')->orderBy('sAreaNamePersian', 'ASC')->get();
+        $groups = AdminGroup::orderBy('iGroupId', 'ASC')->get();
+
+        $user = User::where('iAdminId', $id)->get()->first();
+
+        return view('pages.users.edit', compact('areas', 'groups', 'user'));
     }
 
     public function update(int $id)
@@ -41,7 +51,7 @@ class UserController extends BaseController
         $user = User::find($id);
         $user->fill(input()->all());
         $user->save();
-
+        $_SESSION['success'] = "Successfully UPDATED !!!";
         return redirect(url('users'));
     }
 
@@ -51,6 +61,7 @@ class UserController extends BaseController
 //            User::destroy($id);
             User::find($id)->update(['eStatus' => 'Deleted']);
         }
+        $_SESSION['success'] = "Successfully Deleted !!!";
         return redirect(url('users'));
     }
 }

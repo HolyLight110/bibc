@@ -15,10 +15,10 @@ Route::group(['middleware' => \App\Middlewares\Dashboard::class, 'prefix' => 'bi
         Route::group(['prefix' => 'driver'], function () {
             Route::group(['prefix' => 'vehicles'], function () {
                 Route::get('/', 'VehicleController@index')->name('driver.vehicles');
-                Route::get('/new', 'VehicleController@form')->name('driver.vehicles.new');
-                Route::post('/', 'VehicleController@create')->name('driver.vehicles.create');
-                Route::get('/{id}/edit', 'VehicleController@form')->name('driver.vehicles.edit');
-                Route::post('/{id}', 'VehicleController@update')->name('driver.vehicles.update');
+                Route::get('/create', 'VehicleController@create')->name('driver.vehicles.create');
+                Route::post('/', 'VehicleController@store')->name('driver.vehicles.store');
+                Route::get('/edit/{id}', 'VehicleController@edit')->name('driver.vehicles.edit');
+                Route::post('/edit/{id}', 'VehicleController@update')->name('driver.vehicles.update');
                 Route::delete('/{id}', 'VehicleController@delete')->name('driver.vehicles.delete');
             });
 
@@ -43,10 +43,10 @@ Route::group(['middleware' => \App\Middlewares\Dashboard::class, 'prefix' => 'bi
          */
         Route::group(['prefix' => 'users'], function () {
             Route::get('/', 'UserController@index')->name('users');
-            Route::get('/new', 'UserController@form')->name('users.new');
-            Route::post('', 'UserController@create')->name('users.create');
-            Route::get('/{id}', 'UserController@form')->name('users.edit');
-            Route::post('/{id}', 'UserController@update')->name('users.update');
+            Route::get('/create', 'UserController@create')->name('users.create');
+            Route::post('', 'UserController@store')->name('users.store');
+            Route::get('/edit/{id}', 'UserController@edit')->name('users.edit');
+            Route::post('/edit/{id}', 'UserController@update')->name('users.update');
             Route::delete('/{id}', 'UserController@delete')->name('users.delete');
         });
         /*
@@ -54,12 +54,12 @@ Route::group(['middleware' => \App\Middlewares\Dashboard::class, 'prefix' => 'bi
          */
         Route::group(['prefix' => 'companies'], function () {
             Route::get('/', 'CompanyController@index')->name('companies');
-            Route::get('/new', 'CompanyController@form')->name('companies.new');
+            Route::get('/create', 'CompanyController@create')->name('companies.create');
             Route::get('/documents', 'CompanyController@form')->name('companies.new');
-            Route::post('', 'CompanyController@create')->name('companies.create');
-            Route::get('/{id}', 'CompanyController@form')->name('companies.edit');
-            Route::post('/{id}', 'CompanyController@update')->name('companies.update');
-            Route::delete('/{id}', 'CompanyController@delete')->name('companies.delete');
+            Route::post('', 'CompanyController@store')->name('companies.store');
+            Route::get('/edit/{id}', 'CompanyController@edit')->name('companies.edit');
+            Route::post('/edit/{id}', 'CompanyController@update')->name('companies.update');
+            Route::delete('/delete/{id}', 'CompanyController@delete')->name('companies.delete');
 
             Route::get('/{id}/drivers', 'DriverController@index')->name('companies.drivers');
         });
@@ -74,11 +74,11 @@ Route::group(['middleware' => \App\Middlewares\Dashboard::class, 'prefix' => 'bi
          */
         Route::group(['prefix' => 'areas'], function () {
             Route::get('/', 'AreaController@index')->name('areas');
-            Route::get('/new', 'AreaController@form')->name('areas.new');
-            Route::get('/documents', 'AreaController@form')->name('areas.new');
-            Route::post('', 'AreaController@create')->name('areas.create');
-            Route::get('/{id}', 'AreaController@form')->name('areas.edit');
-            Route::post('/{id}', 'AreaController@update')->name('areas.update');
+            Route::get('/create', 'AreaController@create')->name('areas.create');
+            // Route::get('/documents', 'AreaController@form')->name('areas.new');
+            Route::post('', 'AreaController@store')->name('areas.store');
+            Route::get('/edit/{id}', 'AreaController@edit')->name('areas.edit');
+            Route::post('/edit/{id}', 'AreaController@update')->name('areas.update');
             Route::delete('/{id}', 'AreaController@delete')->name('areas.delete');
         });
         /*
@@ -86,10 +86,10 @@ Route::group(['middleware' => \App\Middlewares\Dashboard::class, 'prefix' => 'bi
          */
         Route::group(['prefix' => 'drivers'], function () {
             Route::get('/', 'DriverController@index')->name('drivers');
-            Route::get('/new', 'DriverController@form')->name('drivers.new');
-            Route::post('', 'DriverController@create')->name('drivers.create');
-            Route::get('/{id}', 'DriverController@form')->where(['id' => '[0-9]+'])->name('drivers.edit');
-            Route::post('/{id}', 'DriverController@update')->where(['id' => '[0-9]+'])->name('drivers.update');
+            Route::get('/create', 'DriverController@create')->name('drivers.create');
+            Route::post('', 'DriverController@store')->name('drivers.store');
+            Route::get('/edit/{id}', 'DriverController@edit')->where(['id' => '[0-9]+'])->name('drivers.edit');
+            Route::post('/edit/{id}', 'DriverController@update')->where(['id' => '[0-9]+'])->name('drivers.update');
             Route::delete('/{id}', 'DriverController@delete')->where(['id' => '[0-9]+'])->name('drivers.delete');
             Route::post('/reset/{id}', 'DriverController@reset')->where(['id' => '[0-9]+'])->name('drivers.reset');
         });
@@ -98,10 +98,10 @@ Route::group(['middleware' => \App\Middlewares\Dashboard::class, 'prefix' => 'bi
          */
         Route::group(['prefix' => 'vehicles'], function () {
             Route::get('/', 'VehicleController@index')->name('vehicles');
-            Route::get('/new', 'VehicleController@form')->name('vehicles.new');
-            Route::post('', 'VehicleController@create')->name('vehicles.create');
-            Route::get('/{id}', 'VehicleController@form')->name('vehicles.edit');
-            Route::post('/{id}', 'VehicleController@update')->name('vehicles.update');
+            Route::get('/create', 'VehicleController@create')->name('vehicles.create');
+            Route::post('', 'VehicleController@store')->name('vehicles.store');
+            Route::get('/edit/{id}', 'VehicleController@edit')->name('vehicles.edit');
+            Route::post('/edit/{id}', 'VehicleController@update')->name('vehicles.update');
             Route::delete('/{id}', 'VehicleController@delete')->name('vehicles.delete');
         });
         /*
@@ -109,10 +109,10 @@ Route::group(['middleware' => \App\Middlewares\Dashboard::class, 'prefix' => 'bi
          */
         Route::group(['prefix' => 'vehicleTypes'], function () {
             Route::get('/', 'VehicleTypeController@index')->name('vehicleTypes');
-            Route::get('/new', 'VehicleTypeController@form')->name('vehicleTypes.new');
-            Route::post('', 'VehicleTypeController@create')->name('vehicleTypes.create');
-            Route::get('/{id}', 'VehicleTypeController@form')->name('vehicleTypes.edit');
-            Route::post('/{id}', 'VehicleTypeController@update')->name('vehicleTypes.update');
+            Route::get('/create', 'VehicleTypeController@create')->name('vehicleTypes.create');
+            Route::post('', 'VehicleTypeController@store')->name('vehicleTypes.store');
+            Route::get('/edit/{id}', 'VehicleTypeController@edit')->name('vehicleTypes.edit');
+            Route::post('/edit/{id}', 'VehicleTypeController@update')->name('vehicleTypes.update');
             Route::delete('/{id}', 'VehicleTypeController@delete')->name('vehicleTypes.delete');
         });
         /*
@@ -127,10 +127,10 @@ Route::group(['middleware' => \App\Middlewares\Dashboard::class, 'prefix' => 'bi
          */
         Route::group(['prefix' => 'packageTypes'], function () {
             Route::get('/', 'PackageTypeController@index')->name('packageTypes');
-            Route::get('/new', 'PackageTypeController@form')->name('packageTypes.new');
-            Route::post('', 'PackageTypeController@create')->name('packageTypes.create');
-            Route::get('/{id}', 'PackageTypeController@form')->name('packageTypes.edit');
-            Route::post('/{id}', 'PackageTypeController@update')->name('packageTypes.update');
+            Route::get('/create', 'PackageTypeController@create')->name('packageTypes.create');
+            Route::post('', 'PackageTypeController@store')->name('packageTypes.store');
+            Route::get('/edit/{id}', 'PackageTypeController@edit')->name('packageTypes.edit');
+            Route::post('/edit/{id}', 'PackageTypeController@update')->name('packageTypes.update');
             Route::delete('/{id}', 'PackageTypeController@delete')->name('packageTypes.delete');
         });
         /*
@@ -138,10 +138,10 @@ Route::group(['middleware' => \App\Middlewares\Dashboard::class, 'prefix' => 'bi
          */
         Route::group(['prefix' => 'passengers'], function () {
             Route::get('/', 'PassengerController@index')->name('passengers');
-            Route::get('/new', 'PassengerController@form')->name('passengers.new');
-            Route::post('', 'PassengerController@create')->name('passengers.create');
-            Route::get('/{id}', 'PassengerController@form')->name('passengers.edit');
-            Route::post('/{id}', 'PassengerController@update')->name('passengers.update');
+            Route::get('/create', 'PassengerController@create')->name('passengers.create');
+            Route::post('', 'PassengerController@store')->name('passengers.store');
+            Route::get('/edit/{id}', 'PassengerController@edit')->name('passengers.edit');
+            Route::post('/edit/{id}', 'PassengerController@update')->name('passengers.update');
             Route::delete('/{id}', 'PassengerController@delete')->name('passengers.delete');
         });
         /*

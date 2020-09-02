@@ -1,18 +1,18 @@
-@extends('pages.dashboard',['active'=>'heatmap'])
+@extends('app',['active'=>'heatmap'])
 
-@section('dashboard_content')
-    <div class="row" style="height: 100vh">
-        <div class="col-12 h-100">
-            <div id="map" style="width: 100%;height: 100%"></div>
+@section('content')
+    <div class="card h-100">
+        <div class="form-row h-100">
+            <div class="col-12 h-100">
+                <div id="map" class="d-block h-100"></div>
+            </div>
         </div>
     </div>
 @endsection
 @push('css')
     <link rel="stylesheet" href="{{assets('vendor/map.ir/css/mapp.min.css')}}">
     <link rel="stylesheet" href="{{assets('vendor/map.ir/css/fa/style.css')}}">
-    <style>
-
-    </style>
+    <style></style>
 @endpush
 @push('js')
     <script type="text/javascript" src="{{assets('vendor/map.ir/js/mapp.env.js')}}"></script>

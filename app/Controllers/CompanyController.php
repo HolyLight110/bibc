@@ -15,28 +15,43 @@ class CompanyController extends BaseController
             ->withCount('drivers')
             ->orderBy('tRegistrationDate', 'ASC')
             ->get();
-        return view('pages.companies.list', compact('companies'));
+        return view('pages.companies.index', compact('companies'));
     }
 
-    public function form(int $id = null)
-    {
+    //route to create new company
+    public function create() {
+        
         $areas = Area::where('sActive', 'Yes')->orderBy('sAreaNamePersian', 'ASC')->get();
         $companies = Company::orderBy('vCompany', 'ASC')->get();
         $countries = Country::orderBy('vCountry', 'ASC')->get();
-        $company = null;
-        if (!is_null($id)) {
-            $company = Company::find($id);
-        }
-        return view('pages.companies.form', compact('companies', 'areas', 'countries', 'company'));
+
+        return view('pages.companies.create', compact('companies', 'areas', 'countries'));
     }
 
-    public function create()
-    {
+    //create new company
+    public function store() {
         //TODO validation for create company
         Company::create(input()->all());
+
+        //set result message
+        $_SESSION['success'] = 'CREATED NEW COMPANY !';
+
         return redirect(url('companies'));
     }
 
+    //route to editin a company
+    public function edit(int $id) {
+
+        $areas = Area::where('sActive', 'Yes')->orderBy('sAreaNamePersian', 'ASC')->get();
+        $companies = Company::orderBy('vCompany', 'ASC')->get();
+        $countries = Country::orderBy('vCountry', 'ASC')->get();
+
+        $company = Company::find($id);
+
+        return view('pages.companies.edit', compact('companies', 'areas', 'countries', 'company'));
+    }
+
+    //updating a company
     public function update(int $id)
     {
         //TODO validation for edit company
@@ -46,6 +61,7 @@ class CompanyController extends BaseController
         return redirect(url('companies'));
     }
 
+    //delete
     public function delete(int $id)
     {
         if (!is_null($id)) {
@@ -53,5 +69,19 @@ class CompanyController extends BaseController
             Company::find($id)->update(['eStatus' => 'Deleted']);
         }
         return redirect(url('companies'));
+    }
+
+
+    //old
+    public function form()
+    {
+        $areas = Area::where('sActive', 'Yes')->orderBy('sAreaNamePersian', 'ASC')->get();
+        $companies = Company::orderBy('vCompany', 'ASC')->get();
+        $countries = Country::orderBy('vCountry', 'ASC')->get();
+        $company = null;
+        if (!is_null($id)) {
+            $company = Company::find($id);
+        }
+        return view('pages.companies.form', compact('companies', 'areas', 'countries', 'company'));
     }
 }

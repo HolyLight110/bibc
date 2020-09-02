@@ -1,4 +1,4 @@
-@extends('pages.dashboard',['active'=>'bookings'])
+@extends('app',['active'=>'bookings'])
 @php
     if(is_null($booking)){
         $action = url('bookings.create');
@@ -6,202 +6,213 @@
         $action = url('bookings.update',['id'=>$booking->iDriverVehicleId]);
     }
 @endphp
-@section('dashboard_content')
-    <form id="booking-form" method="post" action="{{$action}}">
-        @if(!is_null($booking))
-            <input type="hidden" id="u_id" name="id" value="{{$booking->iDriverVehicleId}}"/>
-        @endif
-
-    <!-- فاصله مبدا تا مقصد -->
-        <input type="hidden" name="vDistance" id="vDistance" value="{{!is_null($booking) ? $booking->vDistance : ''}}">
-        <!-- مدت زمان رسیدن از مبدا به مقصد -->
-        <input type="hidden" name="vDuration" id="vDuration" value="{{!is_null($booking) ? $booking->vDuration : ''}}">
-
-        <!-- مشخصات نقطه مبدا -->
-        <input type="hidden" name="from_lat_long" id="from_lat_long"
-               value="{{!is_null($booking) ? '(' . $booking->vSourceLatitude . ', ' . $booking->vSourceLongitude . ')' : ''}}">
-        <input type="hidden" name="vSourceLatitude" id="from_lat"
-               value="{{!is_null($booking) ? $booking->vSourceLatitude : ''}}">
-        <input type="hidden" name="vSourceLongitude" id="from_long"
-               value="{{!is_null($booking) ? $booking->vSourceLongitude : ''}}">
-
-        <!-- مشخصات نقطه مقصد -->
-        <input type="hidden" name="to_lat_long" id="to_lat_long"
-               value="{{!is_null($booking) ? '(' . $booking->vDestLatitude . ', ' . $booking->vDestLongitude . ')' : ''}}">
-        <input type="hidden" name="vDestLatitude" id="to_lat"
-               value="{{!is_null($booking) ? $booking->vDestLatitude : ''}}">
-        <input type="hidden" name="vDestLongitude" id="to_long"
-               value="{{!is_null($booking) ? $booking->vDestLongitude : ''}}">
-
-
-        <input type="hidden" value="1" id="location_found" name="location_found">
-        <input type="hidden" value="" id="user_type" name="user_type">
-        <input type="hidden" value="{{!is_null($booking) ? $booking->iUserId : ''}}" id="iUserId" name="iUserId">
-        <input type="hidden" value="{{!is_null($booking) ? $booking->iCabBookingId : ''}}" id="iCabBookingId"
-               name="iCabBookingId">
-        <input type="hidden" value="" id="google_server_key"
-               name="google_server_key">
-        <input type="hidden" value="" id="fromlatitude" name="fromlatitude">
-        <input type="hidden" value="" id="fromlongitude" name="fromlongitude">
-        <input type="hidden" value="" id="getradius" name="getradius">
-        {{-- اطلاعات کشور پیش فرض--}}
-        <input type="hidden" value="Iran (Islamic Republic of)" id="vCountry"
-               name="vCountry">
-        <input type="hidden" value="+98" id="vPhoneCode"
-               name="vPhoneCode">
-        <div class="row" style="height:100vh">
-            <div class="col-6">
-                <div class="form-group">
-                    <label for="vCountry">کشور</label>
-                    <input id="vCountry" type="text" class="form-control" name="vCountryTextField"
-                           value="Iran (Islamic Republic of) (+98)"
-                           readonly>
-                </div>
-                <div class="row">
-                    <div class="col-12 col-md-6">
+@section('content')
+    <div class="card h-100">
+        <div class="card-body rtl">
+            <form id="booking-form" method="post" action="{{$action}}" class="h-100">
+                @if(!is_null($booking))
+                    <input type="hidden" id="u_id" name="id" value="{{$booking->iDriverVehicleId}}"/>
+                @endif
+        
+            <!-- فاصله مبدا تا مقصد -->
+                <input type="hidden" name="vDistance" id="vDistance" value="{{!is_null($booking) ? $booking->vDistance : ''}}">
+                <!-- مدت زمان رسیدن از مبدا به مقصد -->
+                <input type="hidden" name="vDuration" id="vDuration" value="{{!is_null($booking) ? $booking->vDuration : ''}}">
+        
+                <!-- مشخصات نقطه مبدا -->
+                <input type="hidden" name="from_lat_long" id="from_lat_long"
+                       value="{{!is_null($booking) ? '(' . $booking->vSourceLatitude . ', ' . $booking->vSourceLongitude . ')' : ''}}">
+                <input type="hidden" name="vSourceLatitude" id="from_lat"
+                       value="{{!is_null($booking) ? $booking->vSourceLatitude : ''}}">
+                <input type="hidden" name="vSourceLongitude" id="from_long"
+                       value="{{!is_null($booking) ? $booking->vSourceLongitude : ''}}">
+        
+                <!-- مشخصات نقطه مقصد -->
+                <input type="hidden" name="to_lat_long" id="to_lat_long"
+                       value="{{!is_null($booking) ? '(' . $booking->vDestLatitude . ', ' . $booking->vDestLongitude . ')' : ''}}">
+                <input type="hidden" name="vDestLatitude" id="to_lat"
+                       value="{{!is_null($booking) ? $booking->vDestLatitude : ''}}">
+                <input type="hidden" name="vDestLongitude" id="to_long"
+                       value="{{!is_null($booking) ? $booking->vDestLongitude : ''}}">
+        
+        
+                <input type="hidden" value="1" id="location_found" name="location_found">
+                <input type="hidden" value="" id="user_type" name="user_type">
+                <input type="hidden" value="{{!is_null($booking) ? $booking->iUserId : ''}}" id="iUserId" name="iUserId">
+                <input type="hidden" value="{{!is_null($booking) ? $booking->iCabBookingId : ''}}" id="iCabBookingId"
+                       name="iCabBookingId">
+                <input type="hidden" value="" id="google_server_key"
+                       name="google_server_key">
+                <input type="hidden" value="" id="fromlatitude" name="fromlatitude">
+                <input type="hidden" value="" id="fromlongitude" name="fromlongitude">
+                <input type="hidden" value="" id="getradius" name="getradius">
+                {{-- اطلاعات کشور پیش فرض--}}
+                <input type="hidden" value="Iran (Islamic Republic of)" id="vCountry"
+                       name="vCountry">
+                <input type="hidden" value="+98" id="vPhoneCode"
+                       name="vPhoneCode">
+                <div class="row h-100" >
+                    <div class="col-6">
                         <div class="form-group">
-                            <select class="form-control form-control-select" name='iAreaId' id='iAreaId'>
-                                <option value="">انتخاب منطقه</option>
-                                @foreach($areas as $area)
-                                    <option {{$area->aId==$aAreaId ? 'selected' : ''}} value="{{$area->aId}}"
-                                            data-area-center="{{$area->mapCenter}}"
-                                            data-area-zoom="{{$area->mapZoom}}"
-                                    >{{$area->sAreaNamePersian}}</option>
-                                @endforeach
-                            </select>
+                            <label for="vCountry">کشور</label>
+                            <input id="vCountry" type="text" class="form-control" name="vCountryTextField"
+                                   value="Iran (Islamic Republic of) (+98)"
+                                   readonly>
+                        </div>
+                        <div class="row">
+                            <div class="col-12 col-md-6">
+                                <div class="form-group">
+                                    <select class="custom-select" name='iAreaId' id='iAreaId'>
+                                        <option value="">انتخاب منطقه</option>
+                                        @foreach($areas as $area)
+                                            <option {{$area->aId==$aAreaId ? 'selected' : ''}} value="{{$area->aId}}"
+                                                    data-area-center="{{$area->mapCenter}}"
+                                                    data-area-zoom="{{$area->mapZoom}}"
+                                            >{{$area->sAreaNamePersian}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <div class="form-group">
+                                    <select class="custom-select" name="iVehicleTypeId" id="iVehicleTypeId">
+                                        <option value="">انتخاب وسیله نقلیه</option>
+                                        @foreach($vehicleTypes as $vehicleType)
+                                            <option {{!is_null($booking) && $booking->iVehicleTypeId==$vehicleType['iVehicleTypeId'] ? 'selected' : ''}}
+                                                    value="{{$vehicleType->iVehicleTypeId}}">{{$vehicleType->vVehicleType}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="trip-info-container">
+                            <h4>اطلاعات مسافر</h4>
+                            <div class="input-group ltr">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="">شماره تلفن مسافر</span>
+                                </div>
+                                <input type="text" pattern="[0-9]{1,}"
+                                       class="form-control" name="vPhone" id="vPhone"
+                                       value="{{!is_null($booking) ? $booking->vPhone : ''}}"
+                                       placeholder="شماره تلفن مسافر را وارد کنید"
+                                       required style="">
+                                <div class="input-group-append">
+                                    <button type="button" class="btn btn-primary" id="get-passenger-detail">دریافت اطلاعات</button>
+                                </div>
+                            </div>
+                            <div class="dropdown-divider"></div>
+                            <div class="row">
+                                <div class="form-group col-6">
+                                    <input type="text" title="Only Alpha character allow"
+                                           class="form-control" name="vName" id="vName"
+                                           value="{{!is_null($booking) ? $booking->vName : ''}}" placeholder="نام" required>
+                                </div>
+                                <div class="form-group col-6">
+                                    <input
+                                            type="text" title="Only Alpha character allow"
+                                            class="form-control" name="vLastName" id="vLastName"
+                                            value="{{!is_null($booking) ? $booking->vLastName : ''}}" placeholder="نام خانوادگی"
+                                            required>
+                                    <input type="hidden" class="form-control" name="vEmail"
+                                           pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$"
+                                           id="vEmail" value="{{!is_null($booking) ? $booking->vEmail : ''}}"
+                                           placeholder="ایمیل">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-6">
+                                    <input type="text"
+                                           class="dropdown-toggle form-control"
+                                           name="vSourceAddresss" id="from"
+                                           value="{{!is_null($booking) ? $booking->vSourceAddresss : ''}}" placeholder="مبدا"
+                                           required
+                                           data-toggle="dropdown"
+                                           aria-haspopup="true"
+                                           aria-expanded="false">
+                                    <div id="from-dropdown" class="dropdown-menu" aria-labelledby="from"></div>
+                                </div>
+                                <div class="col-6 form-group">
+                                    <input type="text"
+                                           class="dropdown-toggle form-control"
+                                           name="tDestAddress" id="to"
+                                           value="{{!is_null($booking) ? $booking->tDestAddress : ''}}"
+                                           placeholder="مقصد"
+                                           required
+                                           data-toggle="dropdown"
+                                           aria-haspopup="true"
+                                           aria-expanded="false">
+                                    <div id="to-dropdown" class="dropdown-menu" aria-labelledby="to"></div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <input type="datetime-local" class="form-control"
+                                       name="dBooking_date_jalali" id="datetimepicker4"
+                                       value="{{jDate()->format('Y-m-dTH:i:s')}}"
+                                       placeholder="Select Date / Time" required>
+                                <input type="hidden" name="dBooking_date" value="{{date('Y-m-dTH:i:s')}}">
+                            </div>
+                            <div class="form-group">
+                                <textarea type="text"
+                                    rows="7"
+                                          class="form-control"
+                                          name="tTripComment" id="tTripComment"
+                                          placeholder="توضیحات">{{!is_null($booking) ? $booking->tTripComment : ''}}</textarea>
+                            </div>
+                            <div class="input-group ltr">
+                                <div class="input-group-prepend">
+                                    <button type="button" class="btn btn-teal" id="manual-select-address">انتخاب دستی مبدا و مقصد</button>
+                                </div>
+                                <select class="custom-select rtl" name='radius-id'
+                                        id="radius-id" required>
+                                    @for($i=5;$i<=25;($i=$i+5))
+                                        <option value="{{$i}}">شعاع {{$i}} کیلومتر</option>
+                                    @endfor
+                                </select>
+                                
+                            </div>
                         </div>
                     </div>
-                    <div class="col-12 col-md-6">
-                        <div class="form-group">
-                            <select class="form-control" name="iVehicleTypeId" id="iVehicleTypeId">
-                                <option value="">انتخاب وسیله نقلیه</option>
-                                @foreach($vehicleTypes as $vehicleType)
-                                    <option {{!is_null($booking) && $booking->iVehicleTypeId==$vehicleType['iVehicleTypeId'] ? 'selected' : ''}}
-                                            value="{{$vehicleType->iVehicleTypeId}}">{{$vehicleType->vVehicleType}}</option>
-                                @endforeach
-                            </select>
+                    <div class="col-6">
+                        <div id="map" class="d-block h-100"></div>
+                    </div>
+                    <div class="col-12 d-none" style="height: 500px" id="trip-fare-result">
+                        <div class="row" id="tripResultLoading">
+                            <div class="col-12">
+                                <h3 class="text-success text-center">در حال محاسبه هزینه سفر...</h3>
+                                <h4 class="text-danger text-center">لطفا منتظر بمانید...</h4>
+                            </div>
+                        </div>
+                        <div class="d-none text-center p-3" id="tripResultsContainer">
+                            <h3>مسافت سفر:<span class="text-success" id="tripDistance"></span></h3>
+                            <h3>مدت سفر:<span class="text-success" id="tripDuration"></span></h3>
+                            <h3>هزینه سفر:<span class="text-success" id="totalFare"></span></h3>
+                        </div>
+                        <div class="row d-none" id="driverContainer">
+                            <div class="form-group col-12 col-md-4">
+                                <select name="iCompanyId" id="iCompanyId"
+                                        class="form-control" required>
+                                    <option value="">انتخاب شرکت</option>
+                                    @foreach($companies as $company)
+                                        <option value="{{$company->iCompanyId}}"
+                                                {{(!is_null($booking) && $booking->iCompanyId== $company->iCompanyId) ? 'selected' : ''}}>{{$company->vCompany}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="form-group col-12 col-md-4">
+                                <select name="iDriverId" id="iDriverId" class="form-control" required></select>
+                            </div>
+                            <div class="col-12 col-md-4">
+                                <button type="reset" class="btn btn-outline-secondary">پاک کردن لیست</button>
+                                <button type="submit" class="btn btn-primary">رزرو سفر</button>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="trip-info-container">
-                    <h4>اطلاعات مسافر</h4>
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text" id="">شماره تلفن مسافر</span>
-                        </div>
-                        <input type="text" pattern="[0-9]{1,}"
-                               class="form-control" name="vPhone" id="vPhone"
-                               value="{{!is_null($booking) ? $booking->vPhone : ''}}"
-                               placeholder="شماره تلفن مسافر را وارد کنید"
-                               required style="">
-                        <button type="button" class="btn btn-info" id="get-passenger-detail">دریافت اطلاعات</button>
-                    </div>
-                    <div class="dropdown-divider"></div>
-                    <div class="row">
-                        <div class="form-group col-6">
-                            <input type="text" title="Only Alpha character allow"
-                                   class="form-control" name="vName" id="vName"
-                                   value="{{!is_null($booking) ? $booking->vName : ''}}" placeholder="نام" required>
-                        </div>
-                        <div class="form-group col-6">
-                            <input
-                                    type="text" title="Only Alpha character allow"
-                                    class="form-control" name="vLastName" id="vLastName"
-                                    value="{{!is_null($booking) ? $booking->vLastName : ''}}" placeholder="نام خانوادگی"
-                                    required>
-                            <input type="hidden" class="form-control" name="vEmail"
-                                   pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$"
-                                   id="vEmail" value="{{!is_null($booking) ? $booking->vEmail : ''}}"
-                                   placeholder="ایمیل">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-6">
-                            <input type="text"
-                                   class="dropdown-toggle form-control"
-                                   name="vSourceAddresss" id="from"
-                                   value="{{!is_null($booking) ? $booking->vSourceAddresss : ''}}" placeholder="مبدا"
-                                   required
-                                   data-toggle="dropdown"
-                                   aria-haspopup="true"
-                                   aria-expanded="false">
-                            <div id="from-dropdown" class="dropdown-menu" aria-labelledby="from"></div>
-                        </div>
-                        <div class="col-6 form-group">
-                            <input type="text"
-                                   class="dropdown-toggle form-control"
-                                   name="tDestAddress" id="to"
-                                   value="{{!is_null($booking) ? $booking->tDestAddress : ''}}"
-                                   placeholder="مقصد"
-                                   required
-                                   data-toggle="dropdown"
-                                   aria-haspopup="true"
-                                   aria-expanded="false">
-                            <div id="to-dropdown" class="dropdown-menu" aria-labelledby="to"></div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <input type="datetime-local" class="form-control"
-                               name="dBooking_date_jalali" id="datetimepicker4"
-                               value="{{jDate()->format('Y-m-dTH:i:s')}}"
-                               placeholder="Select Date / Time" required>
-                        <input type="hidden" name="dBooking_date" value="{{date('Y-m-dTH:i:s')}}">
-                    </div>
-                    <div class="form-group">
-                        <textarea type="text"
-                                  class="form-control"
-                                  name="tTripComment" id="tTripComment"
-                                  placeholder="توضیحات">{{!is_null($booking) ? $booking->tTripComment : ''}}</textarea>
-                    </div>
-                    <div class="input-group">
-                        <select class="form-control form-control-select" name='radius-id'
-                                id="radius-id" required>
-                            @for($i=5;$i<=25;($i=$i+5))
-                                <option value="{{$i}}">شعاع {{$i}} کیلومتر</option>
-                            @endfor
-                        </select>
-                        <button type="button" class="btn btn-info" id="manual-select-address">انتخاب دستی مبدا و مقصد
-                        </button>
-                    </div>
-                </div>
-            </div>
-            <div class="col-6">
-                <div id="map" style="width: 100%;height: 100%"></div>
-            </div>
-            <div class="col-12 d-none" style="height: 500px" id="trip-fare-result">
-                <div class="row" id="tripResultLoading">
-                    <div class="col-12">
-                        <h3 class="text-success text-center">در حال محاسبه هزینه سفر...</h3>
-                        <h4 class="text-danger text-center">لطفا منتظر بمانید...</h4>
-                    </div>
-                </div>
-                <div class="d-none text-center p-3" id="tripResultsContainer">
-                    <h3>مسافت سفر:<span class="text-success" id="tripDistance"></span></h3>
-                    <h3>مدت سفر:<span class="text-success" id="tripDuration"></span></h3>
-                    <h3>هزینه سفر:<span class="text-success" id="totalFare"></span></h3>
-                </div>
-                <div class="row d-none" id="driverContainer">
-                    <div class="form-group col-12 col-md-4">
-                        <select name="iCompanyId" id="iCompanyId"
-                                class="form-control" required>
-                            <option value="">انتخاب شرکت</option>
-                            @foreach($companies as $company)
-                                <option value="{{$company->iCompanyId}}"
-                                        {{(!is_null($booking) && $booking->iCompanyId== $company->iCompanyId) ? 'selected' : ''}}>{{$company->vCompany}}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="form-group col-12 col-md-4">
-                        <select name="iDriverId" id="iDriverId" class="form-control" required></select>
-                    </div>
-                    <div class="col-12 col-md-4">
-                        <button type="reset" class="btn btn-outline-secondary">پاک کردن لیست</button>
-                        <button type="submit" class="btn btn-primary">رزرو سفر</button>
-                    </div>
-                </div>
-            </div>
+            </form>
         </div>
-    </form>
+    </div>
+
     <div class="modal" id="user-dialog" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
